@@ -1,9 +1,11 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {Button} from '../../atoms';
 
-const Header = ({text}) => {
+const Header = ({text, backButton}) => {
   return (
     <View style={styles.container}>
+      {backButton && <Button type="icon-only" icon="arrow-back" />}
       <Text style={styles.text}> {text}</Text>
     </View>
   );
@@ -16,9 +18,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     paddingLeft: 24,
     paddingVertical: 38,
+    flexDirection: 'row',
   },
   text: {
     fontFamily: 'Poppins-Medium',
     fontSize: 22,
+    marginLeft: 34,
   },
 });
