@@ -1,6 +1,5 @@
-import BorderCircle from './BorderCircle';
 import Header from './Header';
-import HeaderSignUp from './HeaderSignUp';
 import TextInput from './Textinput';
+import TransactionCard from './TransactionCard';
 
-export {Header, TextInput, HeaderSignUp, BorderCircle};
+export {Header, TextInput, TransactionCard};
