@@ -1,17 +1,33 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import {Button, Gap} from '../../components/atoms';
 import {DummyPhoto} from '../../assets/icon';
+import {getDatabase, ref, onValue} from 'firebase/database';
 
-const Home = ({navigation}) => {
+const Home = ({navigation, route}) => {
+  const {uid} = route.params;
+  const [fullName, setFullName] = useState('');
+  const [photo, setPhoto] = useState(DummyPhoto);
+
+  useEffect(() => {
+    const db = getDatabase();
+    const userRef = ref(db, 'users/' + uid);
+    onValue(userRef, snapshot => {
+      const data = snapshot.val();
+      setPhoto({uri: data.photo});
+      setFullName(data.fullName);
+    });
+  }, []);
   return (
     <View style={styles.pageContainer}>
       <View style={styles.headerContainer}>
         <View>
-          <Text style={styles.appTitle}>Money Tracker</Text>
-          <Text style={styles.appSubTitle}>Track Your Money</Text>
+          <Text style={styles.appTitle}>{`Hi, ${fullName}`}</Text>
+          <Text style={styles.appSubTitle}>
+            Have you track your money today?
+          </Text>
         </View>
-        <Image source={DummyPhoto} />
+        <Image source={photo} style={styles.photo} />
       </View>
       <View style={styles.contentWrapper}>
         <Text style={styles.subTitle}>Your Balance</Text>
@@ -99,5 +115,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Light',
     fontSize: 14,
     color: '#8D92A3',
+  },
+  photo: {
+    height: 70,
+    width: 70,
+    borderRadius: 10,
   },
 });
